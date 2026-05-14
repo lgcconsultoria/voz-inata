@@ -1,110 +1,115 @@
+import Link from "next/link"
 import { AppShell } from "@/components/layout/app-shell"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { PostComposer } from "@/components/mural/post-composer"
+import { PostCard, type MuralPost } from "@/components/mural/post-card"
+import { createSupabaseServerClient } from "@/lib/supabase/server"
+import {
+  MEMBER_POST_TYPES,
+  POST_TYPE_LABEL,
+  isPostType,
+  type PostType
+} from "@/lib/mural/post-types"
 
 export const metadata = { title: "Mural" }
 
-const postTypes = [
-  { code: "intencao",     label: "🎯 Intenção" },
-  { code: "conquista",    label: "🌟 Conquista" },
-  { code: "indicacao",    label: "🤝 Indica" },
-  { code: "divulgacao",   label: "💼 Negócio" },
-  { code: "pergunta",     label: "❓ Pergunta" },
-  { code: "aprendizado",  label: "💡 Aprendi" },
-  { code: "oportunidade", label: "🚪 Oportunidade" }
-]
+type PageProps = {
+  searchParams?: { type?: string }
+}
 
-const samplePosts = [
-  {
-    author: "Marina Oliveira",
-    badge: "✋ Ativa",
-    city: "Belo Horizonte",
-    when: "2h",
-    type: "🌟 Conquista",
-    content:
-      "Fechei meu primeiro pacote anual de psicoterapia parental hoje. Aprendi aqui que precificar com clareza é uma forma de cuidar de mim também."
-  },
-  {
-    author: "Camila Borba",
-    badge: "💎 Parceira",
-    city: "Sorocaba",
-    when: "5h",
-    type: "💼 Negócio",
-    content:
-      "Atelier Raiz acabou de lançar uma cápsula de inverno feita só com algodão orgânico do interior. Frete grátis pra membras da Voz Inata até dia 20."
-  },
-  {
-    author: "Júlia Tavares",
-    badge: "🌱 Recém-chegada",
-    city: "São Paulo",
-    when: "1d",
-    type: "🤝 Indica",
-    content:
-      "Procuro uma contadora especialista em MEI / Simples Nacional. Tem indicação aqui na comunidade?"
+export default async function MuralPage({ searchParams }: PageProps) {
+  const supabase = createSupabaseServerClient()
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", user!.id)
+    .single()
+
+  const initial =
+    (profile?.full_name ?? "M").trim()[0]?.toUpperCase() ?? "M"
+
+  const activeFilter: PostType | null =
+    searchParams?.type && isPostType(searchParams.type) ? searchParams.type : null
+
+  // Post-âncora ativo (mais recente)
+  const { data: anchorRow } = await supabase
+    .from("posts")
+    .select(
+      "id, post_type, content, image_url, created_at, reactions_count, comments_count, is_anchor, author:profiles!posts_author_id_fkey(full_name, city, current_plan)"
+    )
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .eq("is_anchor", true)
+    .gt("pinned_until", new Date().toISOString())
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
+  const anchor = normalize(anchorRow)
+
+  let feedQuery = supabase
+    .from("posts")
+    .select(
+      "id, post_type, content, image_url, created_at, reactions_count, comments_count, is_anchor, author:profiles!posts_author_id_fkey(full_name, city, current_plan)"
+    )
+    .eq("status", "published")
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false })
+    .limit(50)
+
+  if (activeFilter) {
+    feedQuery = feedQuery.eq("post_type", activeFilter)
   }
-]
+  if (anchor) {
+    feedQuery = feedQuery.neq("id", anchor.id)
+  }
 
-export default function MuralPage() {
+  const { data: feedRows } = await feedQuery
+  const feed = (feedRows ?? []).map(normalize).filter((p): p is MuralPost => p !== null)
+
   return (
-    <AppShell current="/mural">
+    <AppShell current="/mural" userInitial={initial}>
       <div className="container-wide grid gap-8 py-10 lg:grid-cols-12">
         <section className="space-y-6 lg:col-span-8">
-          {/* POST-ÂNCORA */}
-          <Card className="border-terracota/30 bg-areia/40">
-            <span className="text-xs font-medium uppercase tracking-wider text-terracota">
-              📣 Post-âncora · Segunda da Intenção
-            </span>
-            <CardTitle className="mt-2">Qual sua intenção para esta semana?</CardTitle>
-            <CardContent className="mt-2 text-argila">
-              Responda em uma frase. Equipe responde aos 10 primeiros. 142 mulheres já participaram.
-            </CardContent>
-            <div className="mt-4 flex gap-2">
-              <input
-                className="flex-1 rounded-lg border border-areia bg-white px-4 text-sm placeholder:text-argila/70 focus:border-terracota focus:outline-none focus:ring-2 focus:ring-terracota/30"
-                placeholder="Esta semana eu quero..."
-              />
-              <Button size="md">Publicar</Button>
-            </div>
-          </Card>
+          <PostComposer />
+
+          {anchor && <PostCard post={anchor} anchor />}
 
           {/* FILTROS */}
           <div className="flex flex-wrap gap-2 text-sm">
-            <Button size="sm" variant="outline">Tudo</Button>
-            {postTypes.map(t => (
-              <Button key={t.code} size="sm" variant="ghost">
-                {t.label}
-              </Button>
+            <FilterChip href="/mural" label="Tudo" active={activeFilter === null} />
+            {MEMBER_POST_TYPES.map(t => (
+              <FilterChip
+                key={t}
+                href={`/mural?type=${t}`}
+                label={POST_TYPE_LABEL[t]}
+                active={activeFilter === t}
+              />
             ))}
           </div>
 
           {/* FEED */}
-          <div className="space-y-4">
-            {samplePosts.map(p => (
-              <Card key={p.author}>
-                <div className="flex items-start gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-terracota/20 text-sm font-medium text-terracota-600">
-                    {p.author[0]}
-                  </span>
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2 text-sm">
-                      <span className="font-medium text-verde">{p.author}</span>
-                      <span className="text-xs text-argila">{p.badge}</span>
-                      <span className="text-xs text-argila">· {p.city} · {p.when}</span>
-                    </div>
-                    <span className="mt-1 inline-block rounded-full bg-areia/60 px-2 py-0.5 text-[11px] text-tinta">
-                      {p.type}
-                    </span>
-                    <p className="mt-3 text-sm leading-relaxed text-tinta">{p.content}</p>
-                    <div className="mt-4 flex items-center gap-4 text-xs text-argila">
-                      <button className="hover:text-terracota">❤️ Curtir</button>
-                      <button className="hover:text-terracota">💬 Comentar</button>
-                      <button className="hover:text-terracota">↗️ Compartilhar</button>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+          {feed.length === 0 ? (
+            <Card>
+              <CardTitle>Ainda silencioso por aqui.</CardTitle>
+              <CardContent className="mt-2">
+                {activeFilter
+                  ? "Nenhuma publicação desse tipo ainda. Tente outro filtro ou seja a primeira."
+                  : "Seja a primeira a publicar — sua voz começa a comunidade."}
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {feed.map(p => (
+                <PostCard key={p.id} post={p} />
+              ))}
+            </div>
+          )}
         </section>
 
         <aside className="space-y-4 lg:col-span-4">
@@ -117,18 +122,74 @@ export default function MuralPage() {
               Quinta do Palco · 22 mai · Camila Andrade
             </CardContent>
           </Card>
-          <Card className="bg-areia/40">
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Recém-chegadas
-            </p>
-            <ul className="mt-3 space-y-2 text-sm text-tinta">
-              <li>Júlia · São Paulo</li>
-              <li>Bia · Recife</li>
-              <li>Helena · Curitiba</li>
-            </ul>
-          </Card>
         </aside>
       </div>
     </AppShell>
   )
+}
+
+function FilterChip({
+  href,
+  label,
+  active
+}: {
+  href: string
+  label: string
+  active: boolean
+}) {
+  return (
+    <Link
+      href={href}
+      className={
+        "rounded-full border px-3 py-1.5 text-sm transition-colors " +
+        (active
+          ? "border-verde bg-verde text-creme"
+          : "border-areia bg-white text-tinta hover:border-verde/40")
+      }
+    >
+      {label}
+    </Link>
+  )
+}
+
+// O Supabase pode devolver a relação `author` como objeto OU como array,
+// dependendo de como o tipo da FK é inferido. Normalizamos pra `MuralPost`.
+type RawAuthor = {
+  full_name: string | null
+  city: string | null
+  current_plan: string | null
+}
+type RawPost = {
+  id: string
+  post_type: string
+  content: string
+  image_url: string | null
+  created_at: string
+  reactions_count: number
+  comments_count: number
+  is_anchor: boolean
+  author: RawAuthor | RawAuthor[] | null
+}
+
+function normalize(row: RawPost | null | undefined): MuralPost | null {
+  if (!row) return null
+  if (!isPostType(row.post_type)) return null
+  const author = Array.isArray(row.author) ? row.author[0] ?? null : row.author
+  return {
+    id: row.id,
+    post_type: row.post_type,
+    content: row.content,
+    image_url: row.image_url,
+    created_at: row.created_at,
+    reactions_count: row.reactions_count,
+    comments_count: row.comments_count,
+    is_anchor: row.is_anchor,
+    author: author
+      ? {
+          full_name: author.full_name,
+          city: author.city,
+          current_plan: author.current_plan
+        }
+      : null
+  }
 }
