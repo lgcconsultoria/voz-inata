@@ -114,10 +114,8 @@ export default async function MuralPage({ searchParams }: PageProps) {
 
         <aside className="space-y-4 lg:col-span-4">
           <Card>
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Esta semana
-            </p>
-            <CardTitle className="mt-2 text-lg">Próximo evento</CardTitle>
+            <p className="kicker">esta semana</p>
+            <CardTitle className="mt-3 text-lg">Próximo evento</CardTitle>
             <CardContent className="mt-2 text-argila">
               Quinta do Palco · 22 mai · Camila Andrade
             </CardContent>

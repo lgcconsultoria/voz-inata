@@ -50,8 +50,8 @@ export function PostComposer() {
                   className={
                     "rounded-full border px-3 py-1.5 text-sm transition-colors " +
                     (active
-                      ? "border-terracota bg-terracota text-white"
-                      : "border-areia bg-white text-tinta hover:border-terracota/60")
+                      ? "border-lilas-500 bg-lilas-500 text-white"
+                      : "border-lilas-100 bg-white text-tinta hover:border-lilas-300")
                   }
                 >
                   {POST_TYPE_LABEL[t]}
@@ -78,7 +78,7 @@ export function PostComposer() {
               <span className="text-vinho">{state.error}</span>
             )}
             {state.ok && (
-              <span className="text-verde">Publicado.</span>
+              <span className="text-menta-600 font-medium">Publicado.</span>
             )}
           </div>
         </div>

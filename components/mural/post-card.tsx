@@ -30,22 +30,22 @@ export function PostCard({ post, anchor = false }: { post: MuralPost; anchor?: b
   const when = relativeTime(post.created_at)
 
   return (
-    <Card className={anchor ? "border-terracota/30 bg-areia/40" : undefined}>
+    <Card className={anchor ? "border-lilas-300 bg-lilas-50" : undefined}>
       <div className="flex items-start gap-3">
         <span
           aria-hidden
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-terracota/20 text-sm font-medium text-terracota-600"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lilas-100 text-sm font-bold text-lilas-700"
         >
           {initial}
         </span>
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2 text-sm">
-            <span className="font-medium text-verde">{name}</span>
+            <span className="font-medium text-lilas-800">{name}</span>
             {badge && <span className="text-xs text-argila">{badge}</span>}
             {city && <span className="text-xs text-argila">· {city}</span>}
             <span className="text-xs text-argila">· {when}</span>
           </div>
-          <span className="mt-1 inline-block rounded-full bg-areia/60 px-2 py-0.5 text-[11px] text-tinta">
+          <span className="mt-1 inline-block rounded-full bg-menta/30 px-2 py-0.5 text-[11px] text-lilas-800 border border-menta/40">
             {POST_TYPE_LABEL[post.post_type]}
           </span>
           <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-tinta">

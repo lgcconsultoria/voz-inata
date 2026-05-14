@@ -20,16 +20,24 @@ export default function LoginPage() {
   const [state, formAction] = useFormState<AuthState, FormData>(signInAction, {})
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-creme px-4 py-12">
-      <div className="w-full max-w-md">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-creme px-4 py-12">
+      <div className="orb left-[-10%] top-[10%] h-[420px] w-[420px] hidden md:block animate-orb-float" />
+      <div className="orb right-[-8%] bottom-[5%] h-[340px] w-[340px] hidden md:block opacity-40" />
+      <div className="relative w-full max-w-md">
         <Link
           href="/"
-          className="mb-8 inline-block font-display text-2xl font-semibold text-verde hover:text-terracota"
+          className="mb-8 inline-flex flex-col items-start group"
         >
-          Voz Inata
+          <span className="font-display text-2xl font-extrabold tracking-tight text-lilas-800 group-hover:text-lilas-600">
+            voz<span className="text-menta-400">·</span>inata
+          </span>
+          <span className="text-[10px] uppercase tracking-brand text-lilas-500">
+            conexão · presença · alma
+          </span>
         </Link>
         <Card className="bg-white">
-          <h1 className="font-display text-2xl text-verde">Bem-vinda de volta</h1>
+          <span className="kicker">bem-vinda de volta</span>
+          <h1 className="mt-2 font-display text-2xl text-lilas-800">Entrar.</h1>
           <p className="mt-2 text-sm text-argila">
             Entre com seu e-mail e senha para acessar a comunidade.
           </p>
@@ -64,7 +72,7 @@ export default function LoginPage() {
 
           <p className="mt-8 text-center text-sm text-argila">
             Ainda não é membra?{" "}
-            <Link href="/cadastro" className="text-verde underline-offset-2 hover:underline">
+            <Link href="/cadastro" className="text-lilas-700 font-medium underline-offset-2 hover:underline">
               Quero entrar
             </Link>
           </p>

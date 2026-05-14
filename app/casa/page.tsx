@@ -87,21 +87,20 @@ export default async function HomePage() {
         <section className="space-y-8 lg:col-span-8">
           {/* SAUDAÇÃO */}
           <div>
-            <h1 className="font-display text-3xl text-verde sm:text-4xl">
-              Olá, {firstName} 🌸
+            <span className="kicker">conexão · presença · alma</span>
+            <h1 className="mt-2 font-display text-3xl text-lilas-800 sm:text-4xl">
+              Olá, {firstName}.
             </h1>
-            <p className="mt-2 text-tinta/85">
+            <p className="mt-3 text-tinta/85">
               Sua semana começa hoje — Segunda da Intenção às 10h. Plano:{" "}
-              <span className="font-medium text-terracota">{planLabel}</span>.
+              <span className="font-medium text-lilas-500">{planLabel}</span>.
             </p>
           </div>
 
           {/* TRILHA DE ONBOARDING */}
           <Card>
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Sua jornada
-            </p>
-            <CardTitle className="mt-2">Você está nos primeiros dias</CardTitle>
+            <p className="kicker">sua jornada</p>
+            <CardTitle className="mt-3">Você está nos primeiros dias</CardTitle>
             <p className="mt-2 text-sm text-argila">
               Complete as 4 etapas para ganhar o selo "Voz Inata Ativa".
             </p>
@@ -110,15 +109,15 @@ export default async function HomePage() {
               {onboardingSteps.map(step => (
                 <li
                   key={step.label}
-                  className={`flex items-center gap-3 rounded-lg border p-3 text-sm ${
+                  className={`flex items-center gap-3 rounded-xl border p-3 text-sm ${
                     step.done
-                      ? "border-salvia/60 bg-salvia/10 text-verde"
-                      : "border-areia bg-creme text-tinta"
+                      ? "border-menta bg-menta/15 text-lilas-800"
+                      : "border-lilas-100 bg-creme text-tinta"
                   }`}
                 >
                   <span
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs ${
-                      step.done ? "bg-salvia text-verde-800" : "bg-areia text-argila"
+                      step.done ? "bg-menta-400 text-lilas-900" : "bg-lilas-100 text-lilas-600"
                     }`}
                   >
                     {step.done ? "✓" : "○"}
@@ -130,30 +129,28 @@ export default async function HomePage() {
           </Card>
 
           {/* PRÓXIMO EVENTO */}
-          <Card className="overflow-hidden border-terracota/30 bg-gradient-to-br from-white to-terracota/10">
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Próximo evento ao vivo
-            </p>
-            <CardTitle className="mt-2">Quinta do Palco · Camila Andrade</CardTitle>
-            <p className="mt-2 text-sm text-tinta">
+          <Card className="relative overflow-hidden border-lilas-200 bg-gradient-to-br from-white via-lilas-50 to-lavanda/40">
+            <div className="orb right-[-10%] top-[-30%] h-[180px] w-[180px] opacity-50" />
+            <p className="kicker relative">próximo evento ao vivo</p>
+            <CardTitle className="relative mt-3">Quinta do Palco · Camila Andrade</CardTitle>
+            <p className="relative mt-2 text-sm text-tinta">
               <strong>Precificar sem culpa</strong> — como montar uma tabela de preços que reflita o valor do seu trabalho.
             </p>
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
-              <p className="text-sm text-argila">📅 22 mai · 20h–21h (Brasília)</p>
+            <div className="relative mt-5 flex flex-wrap items-center justify-between gap-4">
+              <p className="text-sm text-argila">22 mai · 20h–21h (Brasília)</p>
               <Link href="/agenda"><Button size="md">Quero participar</Button></Link>
             </div>
           </Card>
 
           {/* DESTAQUES DA SEMANA */}
           <div>
-            <h2 className="font-display text-2xl text-verde">Destaques da semana</h2>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <span className="kicker">esta semana</span>
+            <h2 className="mt-2 font-display text-2xl text-lilas-800">Destaques.</h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
               {featuredCards.map(card => (
                 <Card key={card.title} className="flex flex-col">
-                  <span className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    {card.tag}
-                  </span>
-                  <CardTitle className="mt-2 text-lg">{card.title}</CardTitle>
+                  <p className="kicker">{card.tag}</p>
+                  <CardTitle className="mt-3 text-lg">{card.title}</CardTitle>
                   <CardContent className="mt-2 flex-1 text-argila">
                     {card.description}
                   </CardContent>
@@ -172,28 +169,24 @@ export default async function HomePage() {
         {/* COLUNA LATERAL */}
         <aside className="space-y-6 lg:col-span-4">
           {/* SEGUNDA DA INTENÇÃO */}
-          <Card className="bg-areia/40">
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Segunda da Intenção
-            </p>
-            <CardTitle className="mt-2 text-xl">Qual sua intenção para esta semana?</CardTitle>
+          <Card className="bg-lilas-50">
+            <p className="kicker">segunda da intenção</p>
+            <CardTitle className="mt-3 text-xl">Qual sua intenção para esta semana?</CardTitle>
             <p className="mt-2 text-xs text-argila">
               Responda em 1 frase. Sem precisar virar meta.
             </p>
             <textarea
-              className="mt-4 h-24 w-full rounded-lg border border-areia bg-white p-3 text-sm placeholder:text-argila/70 focus:border-terracota focus:outline-none focus:ring-2 focus:ring-terracota/30"
+              className="mt-4 h-24 w-full rounded-xl border border-lilas-100 bg-white p-3 text-sm placeholder:text-argila/70 focus:border-lilas-500 focus:outline-none focus:ring-2 focus:ring-lilas-300/40"
               placeholder="Esta semana eu quero..."
             />
             <Button size="sm" className="mt-3 w-full">
               Publicar minha intenção
             </Button>
 
-            <p className="mt-6 text-xs font-medium uppercase tracking-wider text-argila">
-              Algumas respostas
-            </p>
+            <p className="mt-6 kicker">algumas respostas</p>
             <ul className="mt-3 space-y-3 text-sm">
               {intentionPosts.map(p => (
-                <li key={p.name} className="rounded-lg bg-white p-3">
+                <li key={p.name} className="rounded-xl bg-white p-3 border border-lilas-100/60">
                   <p className="text-tinta">{p.text}</p>
                   <p className="mt-1 text-xs text-argila">— {p.name}</p>
                 </li>
@@ -202,12 +195,14 @@ export default async function HomePage() {
           </Card>
 
           {/* MENSAGEM DA FUNDADORA */}
-          <Card className="bg-verde text-creme">
-            <p className="text-xs font-medium uppercase tracking-wider text-terracota-200">
-              Da fundadora
-            </p>
-            <p className="mt-3 font-display text-lg leading-snug">
+          <Card className="relative overflow-hidden bg-lilas-800 text-creme border-lilas-800">
+            <div className="orb right-[-30%] top-[-40%] h-[220px] w-[220px] opacity-40" />
+            <p className="relative kicker text-lavanda">da fundadora</p>
+            <p className="relative mt-3 font-display text-lg leading-snug">
               "Esta semana eu quero ver o catálogo se mexer. Indica uma mulher daqui."
+            </p>
+            <p className="relative mt-4 font-script text-xl text-lavanda/85">
+              e mais um tanto…
             </p>
           </Card>
         </aside>

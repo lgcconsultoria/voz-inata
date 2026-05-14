@@ -23,14 +23,15 @@ export default function CatalogPage() {
   return (
     <AppShell current="/catalogo">
       <div className="container-wide py-10">
-        <h1 className="font-display text-3xl text-verde sm:text-4xl">Catálogo de Negócios</h1>
-        <p className="mt-2 max-w-2xl text-tinta/85">
+        <span className="kicker">criação consciente</span>
+        <h1 className="mt-2 font-display text-3xl text-lilas-800 sm:text-4xl">Catálogo de Negócios</h1>
+        <p className="mt-3 max-w-2xl text-tinta/85">
           Mulheres que você pode contratar, indicar e fazer rede. Curado pela comunidade.
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-2 text-sm">
+        <div className="mt-8 flex flex-wrap gap-2 text-sm">
           <input
-            className="flex-1 min-w-[200px] rounded-lg border border-areia bg-white px-4 py-2 placeholder:text-argila/70 focus:border-terracota focus:outline-none focus:ring-2 focus:ring-terracota/30"
+            className="flex-1 min-w-[200px] rounded-xl border border-lilas-100 bg-white px-4 py-2 placeholder:text-argila/70 focus:border-lilas-500 focus:outline-none focus:ring-2 focus:ring-lilas-300/40"
             placeholder="Buscar por nome, serviço ou cidade..."
           />
           <Button size="sm" variant="outline">Categoria</Button>
@@ -39,17 +40,16 @@ export default function CatalogPage() {
         </div>
 
         {/* DESTAQUE */}
-        <Card className="mt-8 flex flex-col gap-6 border-terracota/30 bg-gradient-to-br from-white to-terracota/10 md:flex-row md:items-center">
-          <div className="flex h-32 w-32 shrink-0 items-center justify-center rounded-2xl bg-terracota/20 font-display text-3xl text-terracota">
-            ✨
+        <Card className="relative mt-8 flex flex-col gap-6 overflow-hidden border-lilas-200 bg-gradient-to-br from-white via-lilas-50 to-lavanda/40 md:flex-row md:items-center">
+          <div className="orb right-[-8%] top-[-50%] h-[260px] w-[260px] opacity-50" />
+          <div className="relative flex h-32 w-32 shrink-0 items-center justify-center rounded-3xl bg-menta/40 font-display text-4xl text-lilas-800">
+            ✦
           </div>
-          <div className="flex-1">
-            <span className="text-xs font-medium uppercase tracking-wider text-terracota">
-              Negócio em Evidência · esta semana
-            </span>
+          <div className="relative flex-1">
+            <p className="kicker">negócio em evidência · esta semana</p>
             <CardTitle className="mt-2">{featured.name}</CardTitle>
             <CardContent className="mt-2 text-argila">{featured.pitch}</CardContent>
-            <p className="mt-2 text-xs text-argila">📍 {featured.city}</p>
+            <p className="mt-2 text-xs text-argila">{featured.city}</p>
           </div>
           <Button size="md">Conhecer →</Button>
         </Card>
@@ -58,13 +58,13 @@ export default function CatalogPage() {
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {businesses.map(b => (
             <Card key={b.name}>
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-areia/60 text-2xl text-terracota">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-lilas-100 text-2xl font-bold text-lilas-700">
                 {b.name[0]}
               </span>
               <CardTitle className="mt-4 text-base leading-tight">{b.name}</CardTitle>
               <p className="mt-1 text-xs text-argila">{b.badge}</p>
               <p className="mt-3 text-sm text-tinta">{b.cat}</p>
-              <p className="mt-1 text-xs text-argila">📍 {b.city}</p>
+              <p className="mt-1 text-xs text-argila">{b.city}</p>
               <div className="mt-4 flex items-center gap-2 text-xs">
                 <Button size="sm" variant="outline">WhatsApp</Button>
                 <Button size="sm" variant="ghost">Ver perfil →</Button>

@@ -26,19 +26,26 @@ export default function SignupPage() {
   const [state, formAction] = useFormState<AuthState, FormData>(signUpAction, {})
 
   return (
-    <main className="min-h-screen bg-creme py-12">
-      <div className="container-tight">
+    <main className="relative min-h-screen overflow-hidden bg-creme py-12">
+      <div className="orb right-[-12%] top-[5%] h-[420px] w-[420px] hidden md:block animate-orb-float" />
+      <div className="container-tight relative">
         <Link
           href="/"
-          className="mb-8 inline-block font-display text-2xl font-semibold text-verde hover:text-terracota"
+          className="mb-8 inline-flex flex-col items-start group"
         >
-          Voz Inata
+          <span className="font-display text-2xl font-extrabold tracking-tight text-lilas-800 group-hover:text-lilas-600">
+            voz<span className="text-menta-400">·</span>inata
+          </span>
+          <span className="text-[10px] uppercase tracking-brand text-lilas-500">
+            conexão · presença · alma
+          </span>
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <Card className="bg-white">
-              <h1 className="font-display text-2xl text-verde">Bem-vinda à Voz Inata</h1>
+              <span className="kicker">bem-vinda à voz inata</span>
+              <h1 className="mt-2 font-display text-2xl text-lilas-800">Você está chegando.</h1>
               <p className="mt-2 text-sm text-argila">
                 Você está a poucos minutos de fazer parte. No MVP esqueleto, ainda sem cobrança —
                 o Stripe entra na próxima fase.
@@ -47,14 +54,12 @@ export default function SignupPage() {
               <form action={formAction} className="mt-6 space-y-8">
                 {/* Passo 1 — Plano */}
                 <section>
-                  <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    Passo 1 — Escolha seu plano
-                  </p>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                  <p className="kicker">passo 1 — escolha seu plano</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
                     {plans.map(p => (
                       <label
                         key={p.id}
-                        className="flex cursor-pointer flex-col rounded-xl border border-areia bg-white p-4 transition hover:border-terracota has-[:checked]:border-terracota has-[:checked]:bg-terracota/5"
+                        className="flex cursor-pointer flex-col rounded-2xl border border-lilas-100 bg-white p-4 transition hover:border-lilas-300 has-[:checked]:border-lilas-500 has-[:checked]:bg-lilas-50"
                       >
                         <input
                           type="radio"
@@ -64,12 +69,12 @@ export default function SignupPage() {
                           className="sr-only"
                         />
                         <span className="text-xs text-argila">{p.role}</span>
-                        <span className="mt-1 font-display text-xl text-verde">{p.name}</span>
+                        <span className="mt-1 font-display text-xl font-extrabold text-lilas-800 title-spaced">{p.name}</span>
                         <span className="mt-2 text-sm text-tinta">
                           R$ {p.price}
                           <span className="text-xs text-argila">/mês</span>
                         </span>
-                        <span className="mt-1 text-[11px] text-terracota">
+                        <span className="mt-1 text-[11px] text-lilas-600">
                           Fundadora: R$ {p.founder} vitalício
                         </span>
                       </label>
@@ -79,10 +84,8 @@ export default function SignupPage() {
 
                 {/* Passo 2 — Dados */}
                 <section>
-                  <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    Passo 2 — Seus dados
-                  </p>
-                  <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                  <p className="kicker">passo 2 — seus dados</p>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5 sm:col-span-2">
                       <Label htmlFor="name">Nome completo</Label>
                       <Input id="name" name="name" placeholder="Seu nome" required />
@@ -112,18 +115,16 @@ export default function SignupPage() {
 
                 {/* Passo 3 — Termos */}
                 <section>
-                  <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    Passo 3 — Acordo
-                  </p>
-                  <label className="mt-3 flex items-start gap-3 text-sm text-tinta">
-                    <input type="checkbox" required className="mt-1 h-4 w-4 accent-terracota" />
+                  <p className="kicker">passo 3 — acordo</p>
+                  <label className="mt-4 flex items-start gap-3 text-sm text-tinta">
+                    <input type="checkbox" required className="mt-1 h-4 w-4 accent-lilas-500" />
                     <span>
                       Li e aceito os{" "}
-                      <a href="#" className="text-verde underline-offset-2 hover:underline">Termos de Uso</a>
+                      <a href="#" className="text-lilas-700 font-medium underline-offset-2 hover:underline">Termos de Uso</a>
                       , a{" "}
-                      <a href="#" className="text-verde underline-offset-2 hover:underline">Política de Privacidade</a>{" "}
+                      <a href="#" className="text-lilas-700 font-medium underline-offset-2 hover:underline">Política de Privacidade</a>{" "}
                       e as{" "}
-                      <a href="#" className="text-verde underline-offset-2 hover:underline">Regras de Convivência</a>{" "}
+                      <a href="#" className="text-lilas-700 font-medium underline-offset-2 hover:underline">Regras de Convivência</a>{" "}
                       da Voz Inata.
                     </span>
                   </label>
@@ -139,7 +140,7 @@ export default function SignupPage() {
 
                 <p className="text-center text-xs text-argila">
                   Já é membra?{" "}
-                  <Link href="/entrar" className="text-verde underline-offset-2 hover:underline">
+                  <Link href="/entrar" className="text-lilas-700 font-medium underline-offset-2 hover:underline">
                     Entrar
                   </Link>
                 </p>
@@ -148,20 +149,21 @@ export default function SignupPage() {
           </div>
 
           <aside>
-            <Card className="sticky top-8 bg-areia/40">
-              <p className="text-xs font-medium uppercase tracking-wider text-terracota">Resumo</p>
-              <p className="mt-3 font-display text-2xl text-verde">Plano selecionado</p>
+            <Card className="sticky top-8 bg-lilas-50">
+              <p className="kicker">resumo</p>
+              <p className="mt-3 font-display text-2xl font-extrabold text-lilas-800 title-spaced">Plano selecionado</p>
               <p className="mt-1 text-sm text-tinta">Você pode trocar no perfil depois.</p>
-              <hr className="my-5 border-areia" />
+              <hr className="my-5 border-lilas-100" />
               <ul className="space-y-2 text-sm text-tinta">
-                <li>✓ Sem cobrança no MVP esqueleto</li>
-                <li>✓ Acesso completo às telas</li>
-                <li>✓ Stripe entra na próxima fase</li>
+                <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-menta" /> Sem cobrança no MVP esqueleto</li>
+                <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-menta" /> Acesso completo às telas</li>
+                <li className="flex items-start gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-menta" /> Stripe entra na próxima fase</li>
               </ul>
-              <hr className="my-5 border-areia" />
+              <hr className="my-5 border-lilas-100" />
               <p className="text-xs text-argila">
                 Pause até 60 dias por ano. Cancele quando quiser, sem multa.
               </p>
+              <p className="mt-4 font-script text-lg text-lilas-500">e mais um tanto…</p>
             </Card>
           </aside>
         </div>

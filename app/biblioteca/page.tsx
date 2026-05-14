@@ -38,23 +38,26 @@ export default function LibraryPage() {
   return (
     <AppShell current="/biblioteca">
       <div className="container-wide py-10">
-        <h1 className="font-display text-3xl text-verde sm:text-4xl">Biblioteca</h1>
-        <p className="mt-2 max-w-2xl text-tinta/85">
+        <span className="kicker">consciência aplicada</span>
+        <h1 className="mt-2 font-display text-3xl text-lilas-800 sm:text-4xl">Biblioteca</h1>
+        <p className="mt-3 max-w-2xl text-tinta/85">
           Conteúdo curado, prático e enxuto. Sem maratona. Com aplicação real.
         </p>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {items.map(it => (
-            <Card key={it.title}>
-              <div className="aspect-video rounded-lg bg-gradient-to-br from-terracota-200 via-areia to-salvia" />
-              <span className="mt-4 inline-block rounded-full bg-areia/60 px-2 py-0.5 text-[11px] text-tinta">
+            <Card key={it.title} className="overflow-hidden">
+              <div className="relative -m-6 mb-0 aspect-video bg-gradient-to-br from-lavanda via-lilas-100 to-menta">
+                <div className="orb right-[-25%] top-[-30%] h-[140px] w-[140px] opacity-60" />
+              </div>
+              <span className="mt-5 inline-block rounded-full bg-lilas-50 px-2 py-0.5 text-[11px] text-lilas-700 border border-lilas-100">
                 {it.cat}
               </span>
-              <CardTitle className="mt-2 text-lg">{it.title}</CardTitle>
+              <CardTitle className="mt-3 text-lg">{it.title}</CardTitle>
               <CardContent className="mt-2 text-argila">{it.desc}</CardContent>
               <div className="mt-4 flex items-center justify-between text-xs text-argila">
-                <span>⏱ {it.duration}</span>
-                <span className="rounded-full border border-areia px-2 py-0.5 text-tinta">
+                <span>{it.duration}</span>
+                <span className="rounded-full border border-lilas-200 bg-lilas-50 px-2 py-0.5 text-lilas-700">
                   Plano {it.plan}+
                 </span>
               </div>
