@@ -1,0 +1,10 @@
+feat: MVP skeleton — landing, login, signup, dashboard
+
+- Next.js 14 (App Router) + TypeScript + Tailwind CSS
+- Paleta Voz Inata (Verde #2F4A3A + Terracota #C97B5C + Areia + Creme)
+- Fontes Fraunces (display) + Inter (UI)
+- Páginas funcionais: landing, /entrar, /cadastro, /casa
+- Componentes UI base (Button, Card, Input)
+- Estrutura pronta para integração com Supabase, Stripe e Resend
+
+Inclui documentação estratégica completa (Skills 01-08) em markdown.

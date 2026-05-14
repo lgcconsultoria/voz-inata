@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: theme("colors.creme");
+    color: theme("colors.tinta");
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background-color: theme("colors.terracota.200");
+    color: theme("colors.tinta");
+  }
+
+  *:focus-visible {
+    outline: 2px solid theme("colors.terracota.DEFAULT");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  h1, h2, h3 {
+    font-family: theme("fontFamily.display");
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  .container-tight {
+    @apply mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8;
+  }
+  .container-wide {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .surface-card {
+    @apply rounded-xl border border-areia bg-white/70 backdrop-blur-sm;
+  }
+}
