@@ -1,11 +1,24 @@
+"use client"
+
 import Link from "next/link"
+import { useFormState, useFormStatus } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input, Label } from "@/components/ui/input"
+import { signInAction, type AuthState } from "@/app/(auth)/actions"
 
-export const metadata = { title: "Entrar" }
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  return (
+    <Button type="submit" className="w-full" disabled={pending}>
+      {pending ? "Entrando..." : "Entrar"}
+    </Button>
+  )
+}
 
 export default function LoginPage() {
+  const [state, formAction] = useFormState<AuthState, FormData>(signInAction, {})
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-creme px-4 py-12">
       <div className="w-full max-w-md">
@@ -21,7 +34,7 @@ export default function LoginPage() {
             Entre com seu e-mail e senha para acessar a comunidade.
           </p>
 
-          <form className="mt-6 space-y-4" action="/casa">
+          <form action={formAction} className="mt-6 space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email">E-mail</Label>
               <Input id="email" name="email" type="email" placeholder="seu@email.com" required />
@@ -37,23 +50,17 @@ export default function LoginPage() {
                   Esqueci minha senha
                 </Link>
               </div>
-              <Input id="password" name="password" type="password" placeholder="••••••••" required />
+              <Input id="password" name="password" type="password" placeholder="••••••••" required minLength={8} />
             </div>
 
-            <Button type="submit" className="w-full">
-              Entrar
-            </Button>
+            {state.error && (
+              <p className="rounded-lg border border-vinho/30 bg-vinho/10 px-3 py-2 text-sm text-vinho">
+                {state.error}
+              </p>
+            )}
+
+            <SubmitButton />
           </form>
-
-          <div className="mt-6 flex items-center gap-3 text-xs text-argila">
-            <span className="h-px flex-1 bg-areia" />
-            ou continue com
-            <span className="h-px flex-1 bg-areia" />
-          </div>
-
-          <Button variant="outline" className="mt-4 w-full">
-            Continuar com Google
-          </Button>
 
           <p className="mt-8 text-center text-sm text-argila">
             Ainda não é membra?{" "}
@@ -62,10 +69,6 @@ export default function LoginPage() {
             </Link>
           </p>
         </Card>
-
-        <p className="mt-6 text-center text-xs text-argila">
-          Este é um esqueleto do MVP. A integração com Supabase Auth entra na próxima etapa.
-        </p>
       </div>
     </main>
   )

@@ -2,14 +2,21 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardTitle } from "@/components/ui/card"
 import { AppShell } from "@/components/layout/app-shell"
+import { createSupabaseServerClient } from "@/lib/supabase/server"
 
 export const metadata = { title: "Casa" }
 
-const onboardingSteps = [
-  { done: true, label: "Conta criada" },
-  { done: true, label: "Perfil completo" },
-  { done: false, label: "Primeira apresentação no mural" },
-  { done: false, label: "Participar do primeiro evento" }
+const PLAN_LABEL: Record<string, string> = {
+  voz: "Voz",
+  inata: "Inata",
+  mentora: "Mentora"
+}
+
+const onboardingStepsBase = [
+  { key: "account",    label: "Conta criada" },
+  { key: "profile",    label: "Perfil completo" },
+  { key: "first_post", label: "Primeira apresentação no mural" },
+  { key: "first_rsvp", label: "Participar do primeiro evento" }
 ]
 
 const featuredCards = [
@@ -45,20 +52,47 @@ const intentionPosts = [
   { name: "Ana, 29, Recife", text: "Buscar uma sócia para o programa que estou desenhando." }
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = createSupabaseServerClient()
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, current_plan, onboarding_state, avatar_url, bio, city")
+    .eq("id", user!.id)
+    .single()
+
+  const fullName = profile?.full_name ?? "Membra"
+  const firstName = fullName.split(" ")[0]
+  const initial = firstName[0]?.toUpperCase() ?? "M"
+  const plan = profile?.current_plan ?? "voz"
+  const planLabel = PLAN_LABEL[plan] ?? "Voz"
+
+  // Estado de onboarding derivado do banco
+  const profileCompleted = !!(profile?.avatar_url && profile?.bio && profile?.city)
+  const onboardingSteps = [
+    { done: true, label: onboardingStepsBase[0].label },
+    { done: profileCompleted, label: onboardingStepsBase[1].label },
+    { done: false, label: onboardingStepsBase[2].label },
+    { done: false, label: onboardingStepsBase[3].label }
+  ]
+
   return (
-    <AppShell current="/casa">
+    <AppShell current="/casa" userInitial={initial}>
       <div className="container-wide grid gap-8 py-10 lg:grid-cols-12">
         {/* COLUNA CENTRAL */}
         <section className="space-y-8 lg:col-span-8">
           {/* SAUDAÇÃO */}
           <div>
             <h1 className="font-display text-3xl text-verde sm:text-4xl">
-              Olá, Marina 🌸
+              Olá, {firstName} 🌸
             </h1>
             <p className="mt-2 text-tinta/85">
               Sua semana começa hoje — Segunda da Intenção às 10h. Plano:{" "}
-              <span className="font-medium text-terracota">Inata</span>.
+              <span className="font-medium text-terracota">{planLabel}</span>.
             </p>
           </div>
 

@@ -14,10 +14,12 @@ const nav: NavItem[] = [
 
 export function AppShell({
   children,
-  current
+  current,
+  userInitial = "?"
 }: {
   children: React.ReactNode
   current: string
+  userInitial?: string
 }) {
   return (
     <div className="min-h-screen bg-creme">
@@ -42,14 +44,14 @@ export function AppShell({
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/" className="hidden text-sm text-argila hover:text-terracota sm:inline">
+            <Link href="/sair" className="hidden text-sm text-argila hover:text-terracota sm:inline">
               Sair
             </Link>
             <span
               aria-label="Avatar"
               className="flex h-9 w-9 items-center justify-center rounded-full bg-terracota text-sm font-medium text-white"
             >
-              M
+              {userInitial}
             </span>
           </div>
         </div>

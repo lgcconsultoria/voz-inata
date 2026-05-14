@@ -1,17 +1,30 @@
+"use client"
+
 import Link from "next/link"
+import { useFormState, useFormStatus } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input, Label } from "@/components/ui/input"
-
-export const metadata = { title: "Cadastro" }
+import { signUpAction, type AuthState } from "@/app/(auth)/actions"
 
 const plans = [
-  { id: "voz", name: "Voz", price: 49, founder: 39, role: "Para começar" },
-  { id: "inata", name: "Inata", price: 89, founder: 69, role: "Plano âncora", default: true },
+  { id: "voz",     name: "Voz",     price: 49,  founder: 39,  role: "Para começar" },
+  { id: "inata",   name: "Inata",   price: 89,  founder: 69,  role: "Plano âncora", default: true },
   { id: "mentora", name: "Mentora", price: 249, founder: 199, role: "Vagas limitadas" }
 ]
 
+function SubmitButton() {
+  const { pending } = useFormStatus()
+  return (
+    <Button type="submit" size="lg" className="w-full" disabled={pending}>
+      {pending ? "Criando sua conta..." : "Confirmar e entrar na comunidade"}
+    </Button>
+  )
+}
+
 export default function SignupPage() {
+  const [state, formAction] = useFormState<AuthState, FormData>(signUpAction, {})
+
   return (
     <main className="min-h-screen bg-creme py-12">
       <div className="container-tight">
@@ -23,15 +36,15 @@ export default function SignupPage() {
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* FORMULÁRIO */}
           <div className="lg:col-span-2">
             <Card className="bg-white">
               <h1 className="font-display text-2xl text-verde">Bem-vinda à Voz Inata</h1>
               <p className="mt-2 text-sm text-argila">
-                4 passos rápidos. Você está a poucos minutos de fazer parte.
+                Você está a poucos minutos de fazer parte. No MVP esqueleto, ainda sem cobrança —
+                o Stripe entra na próxima fase.
               </p>
 
-              <form className="mt-6 space-y-8" action="/casa">
+              <form action={formAction} className="mt-6 space-y-8">
                 {/* Passo 1 — Plano */}
                 <section>
                   <p className="text-xs font-medium uppercase tracking-wider text-terracota">
@@ -41,9 +54,7 @@ export default function SignupPage() {
                     {plans.map(p => (
                       <label
                         key={p.id}
-                        className={`flex cursor-pointer flex-col rounded-xl border p-4 transition hover:border-terracota ${
-                          p.default ? "border-terracota bg-terracota/5" : "border-areia bg-white"
-                        }`}
+                        className="flex cursor-pointer flex-col rounded-xl border border-areia bg-white p-4 transition hover:border-terracota has-[:checked]:border-terracota has-[:checked]:bg-terracota/5"
                       >
                         <input
                           type="radio"
@@ -82,15 +93,15 @@ export default function SignupPage() {
                     </div>
                     <div className="space-y-1.5">
                       <Label htmlFor="phone">WhatsApp</Label>
-                      <Input id="phone" name="phone" placeholder="(11) 99999-0000" required />
+                      <Input id="phone" name="phone" placeholder="(11) 99999-0000" />
                     </div>
                     <div className="space-y-1.5">
                       <Label htmlFor="city">Cidade</Label>
-                      <Input id="city" name="city" placeholder="Sua cidade" required />
+                      <Input id="city" name="city" placeholder="Sua cidade" />
                     </div>
                     <div className="space-y-1.5">
                       <Label htmlFor="state">Estado</Label>
-                      <Input id="state" name="state" placeholder="UF" maxLength={2} required />
+                      <Input id="state" name="state" placeholder="UF" maxLength={2} />
                     </div>
                     <div className="space-y-1.5 sm:col-span-2">
                       <Label htmlFor="password">Crie uma senha</Label>
@@ -99,21 +110,10 @@ export default function SignupPage() {
                   </div>
                 </section>
 
-                {/* Passo 3 — Pagamento (placeholder) */}
+                {/* Passo 3 — Termos */}
                 <section>
                   <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    Passo 3 — Pagamento
-                  </p>
-                  <div className="mt-3 rounded-xl border border-dashed border-areia bg-areia/30 p-6 text-center text-sm text-argila">
-                    <p>Integração Stripe (cartão recorrente + Pix) entra na próxima etapa.</p>
-                    <p className="mt-2 text-xs">Por enquanto, este é um esqueleto navegável.</p>
-                  </div>
-                </section>
-
-                {/* Passo 4 — Termos */}
-                <section>
-                  <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                    Passo 4 — Acordo
+                    Passo 3 — Acordo
                   </p>
                   <label className="mt-3 flex items-start gap-3 text-sm text-tinta">
                     <input type="checkbox" required className="mt-1 h-4 w-4 accent-terracota" />
@@ -129,9 +129,13 @@ export default function SignupPage() {
                   </label>
                 </section>
 
-                <Button type="submit" size="lg" className="w-full">
-                  Confirmar e entrar na comunidade
-                </Button>
+                {state.error && (
+                  <p className="rounded-lg border border-vinho/30 bg-vinho/10 px-3 py-2 text-sm text-vinho">
+                    {state.error}
+                  </p>
+                )}
+
+                <SubmitButton />
 
                 <p className="text-center text-xs text-argila">
                   Já é membra?{" "}
@@ -143,21 +147,16 @@ export default function SignupPage() {
             </Card>
           </div>
 
-          {/* RESUMO LATERAL */}
           <aside>
             <Card className="sticky top-8 bg-areia/40">
               <p className="text-xs font-medium uppercase tracking-wider text-terracota">Resumo</p>
-              <p className="mt-3 font-display text-2xl text-verde">Plano Inata</p>
-              <p className="mt-1 text-sm text-tinta">R$ 89/mês</p>
-              <p className="mt-1 text-xs text-terracota">
-                R$ 69/mês vitalício se você está nas 100 Fundadoras
-              </p>
+              <p className="mt-3 font-display text-2xl text-verde">Plano selecionado</p>
+              <p className="mt-1 text-sm text-tinta">Você pode trocar no perfil depois.</p>
               <hr className="my-5 border-areia" />
               <ul className="space-y-2 text-sm text-tinta">
-                <li>✓ Mural, biblioteca e agenda completos</li>
-                <li>✓ Espaço próprio no Catálogo</li>
-                <li>✓ Todos os eventos ao vivo</li>
-                <li>✓ Quarta do Negócio + Círculos</li>
+                <li>✓ Sem cobrança no MVP esqueleto</li>
+                <li>✓ Acesso completo às telas</li>
+                <li>✓ Stripe entra na próxima fase</li>
               </ul>
               <hr className="my-5 border-areia" />
               <p className="text-xs text-argila">
