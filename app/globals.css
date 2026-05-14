@@ -19,19 +19,20 @@
   }
 
   ::selection {
-    background-color: theme("colors.terracota.200");
-    color: theme("colors.tinta");
+    background-color: theme("colors.lilas.200");
+    color: theme("colors.lilas.800");
   }
 
   *:focus-visible {
-    outline: 2px solid theme("colors.terracota.DEFAULT");
+    outline: 2px solid theme("colors.lilas.DEFAULT");
     outline-offset: 2px;
     border-radius: 4px;
   }
 
   h1, h2, h3 {
     font-family: theme("fontFamily.display");
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    font-weight: 800;
   }
 }
 
@@ -43,6 +44,35 @@
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
   .surface-card {
-    @apply rounded-xl border border-areia bg-white/70 backdrop-blur-sm;
+    @apply rounded-2xl border border-lilas-100 bg-white/80 backdrop-blur-sm;
+  }
+
+  /* Orbe decorativo do brand book — círculo lavanda suave */
+  .orb {
+    position: absolute;
+    border-radius: 9999px;
+    background: radial-gradient(closest-side,
+      theme("colors.orbe") 0%,
+      theme("colors.lavanda") 60%,
+      transparent 100%);
+    filter: blur(2px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Kicker tipográfico estilo brand book — letter-spacing aberto */
+  .kicker {
+    @apply text-xs font-medium uppercase text-lilas-600;
+    letter-spacing: 0.18em;
+  }
+}
+
+@layer utilities {
+  /* Letter-spacing aberto para títulos de seção, como no PDF */
+  .title-spaced {
+    letter-spacing: 0.04em;
+  }
+  .tracking-brand {
+    letter-spacing: 0.18em;
   }
 }

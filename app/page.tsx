@@ -6,41 +6,45 @@ import { SiteFooter } from "@/components/marketing/site-footer"
 
 const pillars = [
   {
-    icon: "📚",
-    title: "Aprenda",
-    description: "Aulas práticas e materiais curados — sem maratona, com aplicação real."
+    icon: "✦",
+    title: "aprender",
+    description:
+      "Aulas práticas e materiais curados. Conhecimento aplicável, sem ruído nem maratona."
   },
   {
-    icon: "📅",
-    title: "Agenda viva",
-    description: "Encontros ao vivo toda semana com mulheres de referência."
+    icon: "◐",
+    title: "encontrar",
+    description:
+      "Agenda viva de eventos ao vivo, toda semana, com mulheres de referência."
   },
   {
-    icon: "💬",
-    title: "Pertença",
-    description: "Mural sem ruído, com rituais semanais que criam vínculo real."
+    icon: "○",
+    title: "pertencer",
+    description:
+      "Um mural com rituais semanais e tom curado. Conversa de verdade, sem barulho."
   },
   {
-    icon: "🗂️",
-    title: "Apareça",
-    description: "Seu negócio no catálogo — visto e indicado por outras mulheres."
+    icon: "✧",
+    title: "aparecer",
+    description:
+      "Seu negócio no catálogo — visto, indicado, sustentado por outras mulheres."
   }
 ]
 
 const week = [
-  { day: "SEG", ritual: "Live de Abertura + Intenção da Semana" },
+  { day: "SEG", ritual: "Live de Abertura · Intenção da Semana" },
   { day: "TER", ritual: "Conteúdo Educativo" },
   { day: "QUA", ritual: "Quarta do Negócio" },
-  { day: "QUI", ritual: "Quinta do Palco — evento ao vivo" },
+  { day: "QUI", ritual: "Quinta do Palco · evento ao vivo" },
   { day: "SEX", ritual: "Sexta de Indicações" },
   { day: "SÁB", ritual: "Conteúdo Leve" },
-  { day: "DOM", ritual: "Silêncio + digest da semana" }
+  { day: "DOM", ritual: "Silêncio · digest da semana" }
 ]
 
 const plans = [
   {
     name: "Voz",
-    role: "Para começar",
+    role: "para começar",
     price: "49",
     yearly: "ou R$ 470/ano",
     perks: [
@@ -54,21 +58,21 @@ const plans = [
   },
   {
     name: "Inata",
-    role: "Plano âncora",
+    role: "plano-âncora",
     price: "89",
     yearly: "ou R$ 854/ano",
     perks: [
       "Tudo do Voz, mais:",
       "Espaço próprio no Catálogo",
       "Todos os eventos ao vivo",
-      "Quarta do Negócio + Círculos temáticos"
+      "Quarta do Negócio e Círculos temáticos"
     ],
     cta: "Assinar Inata",
     highlighted: true
   },
   {
     name: "Mentora",
-    role: "Vagas limitadas",
+    role: "vagas limitadas",
     price: "249",
     yearly: "ou R$ 2.490/ano",
     perks: [
@@ -106,86 +110,141 @@ export default function LandingPage() {
     <main className="bg-creme">
       <SiteHeader />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="container-wide grid items-center gap-12 py-20 lg:grid-cols-12 lg:py-28">
-          <div className="lg:col-span-7">
-            <span className="inline-flex items-center rounded-full bg-areia/60 px-3 py-1 text-xs font-medium text-verde">
-              Vagas fundadoras com preço travado vitalício
+      {/* HERO — vídeo de fundo */}
+      <section className="relative h-[92vh] min-h-[640px] w-full overflow-hidden bg-tinta">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/og-default.png"
+          aria-hidden
+        >
+          <source src="/video/nova-era.mp4" type="video/mp4" />
+        </video>
+
+        {/* gradiente de legibilidade — escurece o vídeo, com tom lilás no topo */}
+        <div className="absolute inset-0 bg-gradient-to-b from-lilas-900/40 via-tinta/55 to-tinta/85" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(184,168,232,0.35),transparent_55%)]" />
+
+        {/* orbe decorativo */}
+        <div className="orb left-[-12%] top-[55%] h-[420px] w-[420px] hidden md:block animate-orb-float" />
+
+        <div className="container-wide relative z-10 flex h-full items-center">
+          <div className="max-w-3xl text-creme">
+            <span className="kicker text-lavanda animate-fade-in-up">
+              c o n e x ã o · p r e s e n ç a · a l m a
             </span>
-            <h1 className="mt-6 font-display text-4xl leading-tight text-verde sm:text-5xl lg:text-6xl">
-              Sua voz nasceu pra ter rede.
+            <h1
+              className="mt-6 font-display text-5xl leading-[1.04] text-creme sm:text-6xl lg:text-7xl animate-fade-in-up"
+              style={{ animationDelay: "120ms" }}
+            >
+              O que é essencial<br />é <em className="not-italic text-orbe">inato</em>.
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-tinta/85">
-              Uma comunidade digital pra mulheres que querem crescer em rede — com aprendizado,
-              agenda viva, mural curado e visibilidade pro seu negócio. Tudo em um só lugar, com
-              identidade própria.
+            <p
+              className="mt-8 max-w-xl text-lg text-creme/85 animate-fade-in-up"
+              style={{ animationDelay: "240ms" }}
+            >
+              Voz Inata é uma comunidade onde mulheres crescem em rede.
+              Aprendizado, agenda viva, mural curado e visibilidade pro seu negócio —
+              em um único espaço, com tom próprio.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div
+              className="mt-10 flex flex-wrap items-center gap-5 animate-fade-in-up"
+              style={{ animationDelay: "360ms" }}
+            >
               <Link href="/cadastro">
                 <Button size="lg">Quero fazer parte</Button>
               </Link>
-              <Link href="/entrar" className="text-sm text-verde hover:text-terracota">
+              <Link
+                href="/entrar"
+                className="text-sm text-creme/85 underline-offset-4 hover:text-creme hover:underline"
+              >
                 Já sou membra — entrar →
               </Link>
             </div>
-            <p className="mt-6 text-sm text-argila">
-              ⌛ 23 de 100 vagas Fundadoras Inata restantes (mockup)
+            <p
+              className="mt-10 font-script text-2xl text-lavanda/90 animate-fade-in-up"
+              style={{ animationDelay: "520ms" }}
+            >
+              e mais um tanto…
             </p>
           </div>
-          <div className="lg:col-span-5">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-areia shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-terracota-200 via-areia to-salvia" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="font-display text-3xl text-verde-800/80">
-                  Voz Inata
-                </p>
-              </div>
-            </div>
-          </div>
+        </div>
+
+        {/* gradiente inferior de transição suave para o creme */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-creme" />
+      </section>
+
+      {/* MANIFESTO — frase única, respiro alto, tipografia editorial */}
+      <section className="relative overflow-hidden py-24 sm:py-32">
+        <div className="orb right-[-8%] top-[-10%] h-[360px] w-[360px] hidden md:block" />
+        <div className="container-tight relative text-center">
+          <span className="kicker">manifesto</span>
+          <p className="mt-6 font-display text-3xl leading-snug text-lilas-800 sm:text-4xl">
+            Não falamos sobre comunidade.<br />
+            <span className="text-lilas-500">Sustentamos uma.</span>
+          </p>
+          <p className="mx-auto mt-8 max-w-2xl text-tinta/80">
+            Voz Inata nasce do desejo de reconectar mulheres à sua própria fonte —
+            a verdade que não se ensina, mas se lembra. Espaço vivo, ponte entre mundos:
+            aprendizado e prática, rede e negócio, presença e movimento.
+          </p>
         </div>
       </section>
 
       {/* PILARES */}
-      <section id="pilares" className="border-t border-areia/70 bg-white py-20">
+      <section id="pilares" className="relative bg-lilas-50/70 py-24">
         <div className="container-wide">
-          <h2 className="font-display text-3xl text-verde sm:text-4xl">
-            Quatro pilares, um só lugar.
+          <span className="kicker">territórios vivos</span>
+          <h2 className="mt-3 font-display text-3xl text-lilas-800 sm:text-4xl">
+            Quatro pilares.<br /> Um só lugar.
           </h2>
-          <p className="mt-4 max-w-2xl text-tinta/85">
-            A Voz Inata combina o que estava espalhado em mil grupos: aprendizado, encontro,
-            convivência e visibilidade. Tudo curado, sem o ruído do WhatsApp.
+          <p className="mt-4 max-w-2xl text-tinta/80">
+            Voz Inata combina o que estava espalhado em mil grupos: aprendizado,
+            encontro, convivência e visibilidade — curado, com tom e ritmo.
           </p>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {pillars.map(p => (
-              <Card key={p.title} className="bg-creme/60">
-                <div className="text-3xl">{p.icon}</div>
-                <CardTitle className="mt-4">{p.title}</CardTitle>
-                <CardContent className="mt-2 text-argila">{p.description}</CardContent>
-              </Card>
+              <div
+                key={p.title}
+                className="surface-card p-6 transition hover:-translate-y-1 hover:shadow-lg"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-menta text-xl text-lilas-800">
+                  {p.icon}
+                </span>
+                <h3 className="mt-5 font-display text-xl text-lilas-800 title-spaced">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-sm text-tinta/80">{p.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* SEMANA */}
-      <section id="semana" className="py-20">
-        <div className="container-wide">
-          <h2 className="font-display text-3xl text-verde sm:text-4xl">
+      <section id="semana" className="relative overflow-hidden py-24">
+        <div className="orb left-[-10%] bottom-[-15%] h-[420px] w-[420px] hidden md:block" />
+        <div className="container-wide relative">
+          <span className="kicker">ritmo de comunidade</span>
+          <h2 className="mt-3 font-display text-3xl text-lilas-800 sm:text-4xl">
             Uma semana na Voz Inata.
           </h2>
-          <p className="mt-4 max-w-2xl text-tinta/85">
-            A comunidade tem ritmo. Cada dia traz um ritual com propósito — você sabe o que esperar
-            e o que entregar.
+          <p className="mt-4 max-w-2xl text-tinta/80">
+            A comunidade respira no tempo. Cada dia traz um ritual com propósito —
+            você sabe o que esperar e o que entregar.
           </p>
-          <ol className="mt-10 grid gap-4 md:grid-cols-7">
+          <ol className="mt-12 grid gap-4 md:grid-cols-7">
             {week.map(w => (
               <li
                 key={w.day}
-                className="rounded-xl border border-areia bg-white p-4 text-center shadow-sm"
+                className="rounded-2xl border border-lilas-100 bg-white p-5 text-center shadow-sm transition hover:border-lilas-300"
               >
-                <p className="font-display text-2xl text-terracota">{w.day}</p>
-                <p className="mt-2 text-xs text-argila">{w.ritual}</p>
+                <p className="font-display text-2xl text-lilas-500 title-spaced">{w.day}</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-argila">{w.ritual}</p>
               </li>
             ))}
           </ol>
@@ -193,43 +252,45 @@ export default function LandingPage() {
       </section>
 
       {/* PLANOS */}
-      <section id="planos" className="border-y border-areia/70 bg-areia/30 py-20">
+      <section id="planos" className="border-y border-lilas-100 bg-areia/70 py-24">
         <div className="container-wide">
-          <h2 className="font-display text-3xl text-verde sm:text-4xl">
-            Três jeitos de fazer parte.
+          <span className="kicker">três jeitos de fazer parte</span>
+          <h2 className="mt-3 font-display text-3xl text-lilas-800 sm:text-4xl">
+            Escolha por onde começar.
           </h2>
-          <p className="mt-4 max-w-2xl text-tinta/85">
+          <p className="mt-4 max-w-2xl text-tinta/80">
             Comece pelo plano que faz sentido pra você hoje. Pode subir ou descer quando quiser.
           </p>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {plans.map(plan => (
-              <Card
+              <div
                 key={plan.name}
                 className={
-                  plan.highlighted
-                    ? "border-terracota bg-white shadow-lg ring-2 ring-terracota/30"
-                    : "bg-white"
+                  "rounded-2xl border bg-white p-7 transition " +
+                  (plan.highlighted
+                    ? "border-lilas-500 shadow-xl ring-2 ring-lilas-300/50"
+                    : "border-lilas-100 hover:border-lilas-300")
                 }
               >
-                <p className="text-xs font-medium uppercase tracking-wider text-terracota">
-                  {plan.role}
-                </p>
-                <CardTitle className="mt-2 text-2xl">{plan.name}</CardTitle>
+                <p className="kicker">{plan.role}</p>
+                <h3 className="mt-3 font-display text-3xl text-lilas-800 title-spaced">
+                  {plan.name}
+                </h3>
                 <div className="mt-4 flex items-baseline gap-1">
                   <span className="text-xs text-argila">R$</span>
-                  <span className="font-display text-4xl text-verde">{plan.price}</span>
+                  <span className="font-display text-5xl text-lilas-700">{plan.price}</span>
                   <span className="text-sm text-argila">/mês</span>
                 </div>
                 <p className="text-xs text-argila">{plan.yearly}</p>
-                <ul className="mt-6 space-y-2 text-sm text-tinta">
+                <ul className="mt-6 space-y-2 text-sm text-tinta/85">
                   {plan.perks.map(perk => (
                     <li key={perk} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-terracota" />
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-menta" />
                       {perk}
                     </li>
                   ))}
                 </ul>
-                <Link href="/cadastro" className="mt-6 block">
+                <Link href="/cadastro" className="mt-7 block">
                   <Button
                     variant={plan.highlighted ? "primary" : "outline"}
                     className="w-full"
@@ -237,7 +298,7 @@ export default function LandingPage() {
                     {plan.cta}
                   </Button>
                 </Link>
-              </Card>
+              </div>
             ))}
           </div>
           <p className="mt-8 text-center text-xs text-argila">
@@ -247,19 +308,22 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20">
+      <section id="faq" className="py-24">
         <div className="container-tight">
-          <h2 className="font-display text-3xl text-verde sm:text-4xl">Perguntas frequentes</h2>
-          <div className="mt-10 space-y-4">
+          <span className="kicker">perguntas frequentes</span>
+          <h2 className="mt-3 font-display text-3xl text-lilas-800 sm:text-4xl">
+            Antes de entrar.
+          </h2>
+          <div className="mt-10 space-y-3">
             {faqs.map(f => (
               <details
                 key={f.q}
-                className="group rounded-xl border border-areia bg-white p-5"
+                className="group rounded-2xl border border-lilas-100 bg-white p-5 transition hover:border-lilas-300"
               >
-                <summary className="cursor-pointer list-none text-base font-medium text-verde marker:hidden">
+                <summary className="cursor-pointer list-none text-base font-medium text-lilas-800 marker:hidden">
                   <span className="flex items-center justify-between gap-4">
                     {f.q}
-                    <span className="text-terracota transition group-open:rotate-45">+</span>
+                    <span className="text-lilas-500 transition group-open:rotate-45">+</span>
                   </span>
                 </summary>
                 <p className="mt-3 text-sm text-tinta/80">{f.a}</p>
@@ -270,16 +334,19 @@ export default function LandingPage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="border-t border-areia/70 bg-verde py-20 text-creme">
-        <div className="container-tight text-center">
-          <h2 className="font-display text-3xl sm:text-4xl">
-            Você está a um clique de fazer parte.
+      <section className="relative overflow-hidden bg-lilas-800 py-24 text-creme">
+        <div className="orb right-[-6%] top-[-30%] h-[480px] w-[480px] opacity-30" />
+        <div className="orb left-[-8%] bottom-[-40%] h-[380px] w-[380px] opacity-25" />
+        <div className="container-tight relative text-center">
+          <span className="kicker text-lavanda">e mais um tanto…</span>
+          <h2 className="mt-4 font-display text-4xl leading-tight sm:text-5xl">
+            Você está a um clique<br />de fazer parte.
           </h2>
-          <p className="mt-4 text-creme/80">
+          <p className="mx-auto mt-5 max-w-xl text-creme/80">
             Vagas fundadoras com preço travado vitalício — enquanto durarem.
           </p>
-          <Link href="/cadastro" className="mt-8 inline-block">
-            <Button size="lg" className="bg-terracota hover:bg-terracota-500">
+          <Link href="/cadastro" className="mt-10 inline-block">
+            <Button size="lg" className="bg-menta-400 text-lilas-900 hover:bg-menta">
               Quero fazer parte
             </Button>
           </Link>
